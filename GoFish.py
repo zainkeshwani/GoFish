@@ -61,31 +61,24 @@ class Game:
         
     def play(self):
         while(True):
-            # Check if player 1 needs cards
-            if(len(self.player1.player_deck) == 0):
-                print(f"Player {self.player1.name}'s deck is empty")
-                if(len(self.deck) == 0):
-                    print("No cards left to deal! Game over!")
-                    break
-                else:
-                    print("Adding cards to deck...")
-                    if(len(self.deck) < 7):
-                        self.draw_card(self.player1, len(self.deck))
+            # Check if either player needs cards
+            break_while = False
+            for p in [self.player1, self.player2]:
+                if(len(p.player_deck) == 0):
+                    print(f"Player {p.name}'s deck is empty")
+                    if(len(self.deck) == 0):
+                        print("No cards left to deal! Game over!")
+                        break_while = True
+                        break
                     else:
-                        self.draw_card(self.player1, 7)
+                        print("Adding cards to deck...")
+                        if(len(self.deck) < 7):
+                            self.draw_card(p, len(self.deck))
+                        else:
+                            self.draw_card(p, 7)
+                if(break_while):
+                    break
 
-            # Check if player 2 needs cards
-            if(len(self.player2.player_deck) == 0):
-                print(f"Player {self.player2.name}'s deck is empty")
-                if(len(self.deck) == 0):
-                    print("No cards left to deal! Game over!")
-                    break
-                else:
-                    print("Adding cards to deck...")
-                    if(len(self.deck) < 7):
-                        self.draw_card(self.player2, len(self.deck))
-                    else:
-                        self.draw_card(self.player2, 7)
 
             # Print current hand for both players
             print(f"\nPlayer {self.player1.name}'s deck: " + str(self.player1.player_deck))
@@ -130,14 +123,19 @@ class Game:
             else:  # Player 2's turn
                 self.turn = not self.turn
                 print(f"\nPlayer {self.player2.name}'s Turn!")
-                ask = input("Enter the card you are fishing for ('a' for ace, 'k' for king, 'q' for queen, 'j' for jack): ").upper()
-                print("\n")
 
-                # Validate input
-                if(ask not in self.possible_cards):
-                    print("Sorry, that is not a valid card. Please try again.")
-                    self.turn = not self.turn
-                    continue
+                if self.player2.is_machine:
+                    ask = random.choice(list(self.player2.player_deck.keys()))
+                    print(f"{self.player2.name} is fishing for: {ask}")
+                else:
+                    ask = input("Enter the card you are fishing for ('a' for ace, 'k' for king, 'q' for queen, 'j' for jack): ").upper()
+                    print("\n")
+
+                    # Validate input
+                    if(ask not in self.possible_cards):
+                        print("Sorry, that is not a valid card. Please try again.")
+                        self.turn = not self.turn
+                        continue
 
                 # Check if player 1 has the card
                 if(ask in self.player1.player_deck.keys()):
@@ -151,7 +149,7 @@ class Game:
                         self.player2.player_deck[ask] = amount_given + self.player2.player_deck[ask]
                     else:
                         self.player2.player_deck[ask] = amount_given
-                    self.player1.check_set()
+                    self.player2.check_set()
                 else:
                     # Go Fish: draw from deck
                     print(f"\nPlayer {self.player2.name}, GO FISH!")
@@ -189,7 +187,7 @@ def main():
         player1 = None
         player2 = None
 
-        if(type_game==1):
+        if(type_game==2):
             name1 = input("Player 1's name: ")
             player1 = Player(name1, False, {}, [])
 
