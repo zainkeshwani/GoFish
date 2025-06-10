@@ -1,39 +1,89 @@
-# 🎣 Go Fish Game (Python)
+# 🐟 Go Fish — Multiplayer Python Network Game
 
-Welcome to **Go Fish**, a simplified 2-player card game implemented in Python! This version is built for either two human players **or** a human vs computer mode. The first player to collect the most sets (pairs of cards) wins!
-
----
-
-## 🕹️ Features
-
-- ✅ Play against a friend or the computer
-- 🤖 Computer player selects cards at random
-- 🂡 Card deck of 52 standard cards (no jokers)
-- 🧠 Tracks and displays sets collected by each player
-- ♻️ Option to replay after each game
+This is a two-player **Go Fish** card game built in Python with networked multiplayer using sockets. One player runs the server, and both players connect via clients.
 
 ---
 
-## 🧾 Rules
+## 🎮 How to Play
 
-1. Each player starts with 7 cards.
-2. On your turn, ask your opponent for a specific card rank.
-3. If they have it, you get all of them and go again.
-4. If not, you "Go Fish" and draw a card from the deck.
-5. Form a **set** when you collect **two** cards of the same rank (instead of the traditional four).
-6. The player with the most sets when all cards are collected wins!
+- Players take turns asking each other for cards to form **sets of four** (e.g., four Kings).
+- If the other player has any cards of the rank requested, they must hand them over.
+- If not, they say **“Go Fish,”** and the asking player draws a card from the deck.
+- When a player forms a set, it is scored automatically.
+- The game ends when:
+  - All 13 sets have been completed,
+  - The deck is empty **and** both players have no cards,
+  - Or no more valid moves are possible.
 
 ---
 
-## 🚀 Getting Started
+## 🧠 Features
 
-### Requirements
+- ✅ Turn-based gameplay with clear player prompts
+- ✅ Hidden hands — each player only sees their own
+- ✅ Real-time networked communication between two terminals
+- ✅ Automatic set detection and scoring
+- ✅ Graceful game-over handling
 
-- Python 3.x (any recent version will do)
+---
 
-### Run the Game
+## 🛠 Requirements
 
-Clone the repo or copy the script to your machine, then run:
+- Python 3.x
 
-```bash
-python go_fish.py
+No external libraries required. Only Python’s built-in `socket` module is used.
+
+---
+
+## 🚀 How to Run
+
+1. **Start the server:**
+
+   python server.py
+In two separate terminals (or machines), run the client:
+python client.py
+
+
+Follow the prompts:
+
+Enter your name.
+
+View your hand.
+
+Ask for a card (e.g., A, 10, Q, etc.).
+
+Try to complete as many sets as you can!
+
+📂 Project Structure
+
+📁 go-fish/
+├── server.py          # Main server hosting the game
+├── client.py          # Client interface for players
+├── game_logic.py      # Core classes: Player, Game
+├── network_utils.py   # Functions to send/receive string data
+└── README.md          # You're here!
+
+📝 Notes
+Designed strictly for 2 players only
+
+Meant to be run on the same machine or over a LAN (use the local IP for remote connection)
+
+All data is transmitted using plain newline-terminated strings
+
+Hands and moves are kept private for fairness
+
+If either player disconnects, the game ends
+
+📸 Sample Gameplay
+
+Player 1: What card are you fishing for?
+> Q
+Player 2 says: Go Fish!
+You drew: 7
+
+Player 2: What card are you fishing for?
+> 10
+Player 1 had 2 10(s). You get another turn!
+
+👥 Authors
+Created by Zain Keshwani
