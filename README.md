@@ -65,70 +65,47 @@ In the other terminal(s), connect a player:
 
 python client.py
 
-You’ll be prompted to enter your name and choose if the player is human or AI (and at what level).
 
-🕹️ Game Rules
+Follow the prompts:
 
-Each player starts with a hand of cards.
+Enter your name.
 
-On your turn, ask the opponent for a rank you have.
+View your hand.
 
-If they have it, you get their cards and go again.
+Ask for a card (e.g., A, 10, Q, etc.).
 
-If not: "Go Fish!" — draw from the deck.
+Try to complete as many sets as you can!
 
-Collect 4 cards of the same rank to make a set.
+📂 Project Structure
 
-The game ends when all sets are collected. Highest number of sets wins.
+📁 go-fish/
+├── server.py          # Main server hosting the game
+├── client.py          # Client interface for players
+├── game_logic.py      # Core classes: Player, Game
+├── network_utils.py   # Functions to send/receive string data
+└── README.md          # You're here!
 
-🤖 AI Levels Explained
+📝 Notes
+Designed strictly for 2 players only
 
-Level
+Meant to be run on the same machine or over a LAN (use the local IP for remote connection)
 
-Behavior
+All data is transmitted using plain newline-terminated strings
 
-Strategy
+Hands and moves are kept private for fairness
 
-1
+If either player disconnects, the game ends
 
-Random guess
+📸 Sample Gameplay
 
-Purely chance
+Player 1: What card are you fishing for?
+> Q
+Player 2 says: Go Fish!
+You drew: 7
 
-2
+Player 2: What card are you fishing for?
+> 10
+Player 1 had 2 10(s). You get another turn!
 
-Memory-based
-
-Remembers cards the opponent asked for
-
-3
-
-Self-learning AI (Reinforcement)
-
-Adapts and improves over time
-
-🛠️ Requirements
-
-Python 3.x
-
-No external libraries required
-
-📚 Educational Value
-
-This project showcases:
-
-Socket programming in Python
-
-Modular design and separation of logic
-
-Low-level reinforcement learning concepts
-
-AI decision-making strategies
-
-Real-time multiplayer architecture
-
-🏆 Author -- Zain Keshwani
-
-Built and developed as a hands-on software engineering project. Adaptable, smart, and endlessly replayable — Go Fish has never been this fun to beat.
-
-Have fun fishing! 🎣
+👥 Authors
+Created by Zain Keshwani
