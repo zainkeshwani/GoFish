@@ -1,89 +1,134 @@
-# 🐟 Go Fish — Multiplayer Python Network Game
+🐟 Go Fish — Networked Python Game with Smart AI
 
-This is a two-player **Go Fish** card game built in Python with networked multiplayer using sockets. One player runs the server, and both players connect via clients.
+A fully playable, networked version of the classic card game Go Fish, built in Python with multiple AI levels including a self-learning reinforcement agent. Play against friends or challenge a machine opponent that learns from you as you play.
 
----
+🎮 Features
 
-## 🎮 How to Play
+✅ Multiplayer support over network using TCP sockets
 
-- Players take turns asking each other for cards to form **sets of four** (e.g., four Kings).
-- If the other player has any cards of the rank requested, they must hand them over.
-- If not, they say **“Go Fish,”** and the asking player draws a card from the deck.
-- When a player forms a set, it is scored automatically.
-- The game ends when:
-  - All 13 sets have been completed,
-  - The deck is empty **and** both players have no cards,
-  - Or no more valid moves are possible.
+🧠 Three levels of AI difficulty:
 
----
+Level 1: Random guessing
 
-## 🧠 Features
+Level 2: Memory-based decision making
 
-- ✅ Turn-based gameplay with clear player prompts
-- ✅ Hidden hands — each player only sees their own
-- ✅ Real-time networked communication between two terminals
-- ✅ Automatic set detection and scoring
-- ✅ Graceful game-over handling
+Level 3: Low-level reinforcement learning that improves during gameplay
 
----
+🔒 Hidden hands — Each player only sees their own cards
 
-## 🛠 Requirements
+🂿 Card tracking and set detection (collect 4-of-a-kind to score!)
 
-- Python 3.x
+↻ Replayable game flow with fair turn alternation
 
-No external libraries required. Only Python’s built-in `socket` module is used.
+📉 AI rank preferences decay over time to simulate forgetfulness
 
----
+⚙️ Modular code structure for easy expansion and debugging
 
-## 🚀 How to Run
+🧠 AI: Reinforcement Learning (Level 3)
 
-1. **Start the server:**
+Uses an Epsilon-Greedy approach (80% exploit, 20% explore)
 
-   python server.py
-In two separate terminals (or machines), run the client:
+Learns card preferences based on:
+
+Past successes (+1.0 reward)
+
+Past failures (-0.3 penalty)
+
+Time decay (-5% per turn)
+
+Avoids asking for the same rank back-to-back
+
+Maintains and updates rank scores based on player behavior
+
+The more you play against Level 3, the smarter it becomes!
+
+🧹 File Structure
+
+go_fish/
+├── game_logic.py        # Core game rules, Player and Game classes
+├── network_utils.py     # JSON-based send/receive wrappers
+├── server.py            # Hosts the game, handles player turns and game state
+├── client.py            # Connects to server, lets a human or AI play
+├── README.md            # You're reading it!
+
+🚀 How to Play
+
+🢑 Multiplayer Setup
+
+Open two terminals (or two machines).
+
+In one terminal, run the server:
+
+python server.py
+
+In the other terminal(s), connect a player:
+
 python client.py
 
+You’ll be prompted to enter your name and choose if the player is human or AI (and at what level).
 
-Follow the prompts:
+🕹️ Game Rules
 
-Enter your name.
+Each player starts with a hand of cards.
 
-View your hand.
+On your turn, ask the opponent for a rank you have.
 
-Ask for a card (e.g., A, 10, Q, etc.).
+If they have it, you get their cards and go again.
 
-Try to complete as many sets as you can!
+If not: "Go Fish!" — draw from the deck.
 
-📂 Project Structure
+Collect 4 cards of the same rank to make a set.
 
-📁 go-fish/
-├── server.py          # Main server hosting the game
-├── client.py          # Client interface for players
-├── game_logic.py      # Core classes: Player, Game
-├── network_utils.py   # Functions to send/receive string data
-└── README.md          # You're here!
+The game ends when all sets are collected. Highest number of sets wins.
 
-📝 Notes
-Designed strictly for 2 players only
+🤖 AI Levels Explained
 
-Meant to be run on the same machine or over a LAN (use the local IP for remote connection)
+Level
 
-All data is transmitted using plain newline-terminated strings
+Behavior
 
-Hands and moves are kept private for fairness
+Strategy
 
-If either player disconnects, the game ends
+1
 
-📸 Sample Gameplay
+Random guess
 
-Player 1: What card are you fishing for?
-> Q
-Player 2 says: Go Fish!
-You drew: 7
+Purely chance
 
-Player 2: What card are you fishing for?
-> 10
-Player 1 had 2 10(s). You get another turn!
+2
 
-👥 Authors
-Created by Zain Keshwani
+Memory-based
+
+Remembers cards the opponent asked for
+
+3
+
+Self-learning AI (Reinforcement)
+
+Adapts and improves over time
+
+🛠️ Requirements
+
+Python 3.x
+
+No external libraries required
+
+📚 Educational Value
+
+This project showcases:
+
+Socket programming in Python
+
+Modular design and separation of logic
+
+Low-level reinforcement learning concepts
+
+AI decision-making strategies
+
+Real-time multiplayer architecture
+
+🏆 Author -- Zain Keshwani
+
+Built and developed as a hands-on software engineering project. Adaptable, smart, and endlessly replayable — Go Fish has never been this fun to beat.
+
+Have fun fishing! 🎣
